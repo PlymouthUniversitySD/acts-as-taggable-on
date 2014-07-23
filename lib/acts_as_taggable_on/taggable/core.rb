@@ -117,7 +117,7 @@ module ActsAsTaggableOn::Taggable
                       " AND #{ActsAsTaggableOn::Tagging.table_name}.taggable_type = #{quote_value(base_class.name, nil)}" +
                       " AND #{ActsAsTaggableOn::Tagging.table_name}.tagger_id = #{quote_value(owned_by.id, nil)}" +
                       " AND #{ActsAsTaggableOn::Tagging.table_name}.tagger_type = #{quote_value(owned_by.class.base_class.to_s, nil)}"
-            
+
             joins << " AND " + sanitize_sql(["#{ActsAsTaggableOn::Tagging.table_name}.created_at >= ?", options.delete(:start_at)]) if options[:start_at]
             joins << " AND " + sanitize_sql(["#{ActsAsTaggableOn::Tagging.table_name}.created_at <= ?", options.delete(:end_at)])   if options[:end_at]
           end
@@ -216,7 +216,7 @@ module ActsAsTaggableOn::Taggable
 
           group_columns = ActsAsTaggableOn::Utils.using_postgresql? ? grouped_column_names_for(self) : "#{table_name}.#{primary_key}"
           group = group_columns
-          having = "COUNT(#{taggings_alias}.taggable_id) = #{tags.size}"
+          # having = "COUNT(#{taggings_alias}.taggable_id) = #{tags.size}"
         end
 
         order_by << options[:order] if options[:order].present?
